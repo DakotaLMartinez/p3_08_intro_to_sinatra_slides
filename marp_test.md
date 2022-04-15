@@ -1,3 +1,13 @@
+---
+marp: true
+paginate: true
+html: true
+---
+
+<iframe frameborder="0" width="100%" height="500px" src="https://replit.com/@DakotaLMartinez/Many-to-Many-Practice#main.rb"></iframe>
+
+---
+
 # Intro to Sinatra
 
 In this lecture, we'll be covering the following topics:
@@ -12,15 +22,12 @@ In this lecture, we'll be covering the following topics:
 ## Agenda
 
 - Introducing Sinatra  
-  - Introduce our project build 
-  - Discuss Project Requirements for phase 3
-  - Intro to Sinatra
-  - Review of HTTP and request Response Cycle and how it applies to Sinatra
+  - Introduce our project build & Discuss Project Requirements for phase 3
+  - Intro to Sinatra & Review of HTTP and request Response Cycle and how it applies to Sinatra
 - Navigating Starter Code
   - getting familiar with the file structure and highlighting similarities and differences from what you've seen thus far
   - MVC Design Pattern
-  - Building our first API endpoint
-  - Making a fetch request from React 
+  - Building our first API endpoint & Making a fetch request from React 
 - Important Gotchas/Debugging and Developer tools
   - How to use Postman to debug request/response cycle
   - How to use `binding.pry`
@@ -44,6 +51,8 @@ This is a little picture of the application we'll be building over the next few 
 - Build a separate React frontend application that interacts with the API to perform CRUD actions.
 - Use good OO design patterns. You should have separate classes for each of your models, and create instance and class methods as necessary.
 
+---
+# An Example
 For example, build a todo list application with a React frontend interface and a Sinatra backend API, where a user can:
 
 - **Create** a new todo
@@ -98,6 +107,10 @@ end
 
 So, Sinatra gives us a collection of methods we can use to create web applications. 
 
+---
+
+## What is a Web Application?
+
 Okay, but what does web application mean? Simply put, a web application is a program that runs on a web server instead of on your local machine. So, in order for users to interact with a web application they have to interact with that web server. 
 
 ---
@@ -150,7 +163,7 @@ We'll be breaking this url down into pieces below based upon MDN's guide to [Ide
 
 ---
 
-## Protocol
+### Protocol
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web/mdn-url-protocol@x2.png)
 
@@ -166,7 +179,7 @@ Other examples can be found [in the MDN article](https://developer.mozilla.org/e
 
 --- 
 
-## Authority
+# Authority
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web/mdn-url-domain@x2.png)
 
@@ -174,7 +187,7 @@ www.example.com is the domain name or authority that governs the namespace. It i
 
 ---
 
-## Port
+# Port
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web/mdn-url-port@x2.png)
 
@@ -182,7 +195,7 @@ www.example.com is the domain name or authority that governs the namespace. It i
 
 --- 
 
-## Path
+# Path
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web/mdn-url-path@x2.png)
 
@@ -190,7 +203,7 @@ www.example.com is the domain name or authority that governs the namespace. It i
 
 ---
 
-## Query 
+### Query 
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web/mdn-url-parameters@x2.png)
 
@@ -205,7 +218,7 @@ params[:key2] #=> "value2"
 
 ---
 
-## Fragment
+### Fragment
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web/mdn-url-anchor@x2.png)
 
@@ -218,14 +231,13 @@ What this means is that clicking on anchor links within the same HTML document w
 ## Breaking Down the HTTP Protocol
 
 In the example URL above, we mainly focused on one HTTP verb: `GET`. When you type a url into the browser and hit enter or click on a link, generally the browser will send a GET request to a particular URL. There are other HTTP verbs that we'll use as well. MDN's article on [HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview) is a good place to review for further reading.
-
 ![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvqTN_pZMrazSvvj6FIzxMXUa8dlMkdFIXCg&usqp=CAU)
 
 The basic idea is that the client (browser) sends a request to the server and the server sends a response back to the client. 
 
 ---
 
-## Different Types of Requests
+# Different Types of Requests
 
 There are different types of HTTP requests that you should be aware of. These are called request methods. The following are the most relevant to what we'll be working with in Sinatra and later in Rails.
 
@@ -285,7 +297,7 @@ An example might look like this:
 
 ```rb
 get "/dogs" do
-    Dog.all.to_json
+  Dog.all.to_json
 end
 ```
 
@@ -317,12 +329,6 @@ If we look again at our dog walker application again:
 
 ---
 
-## Break Time
-
-<iframe width={16*60} height={9*60} src="https://www.youtube.com/embed/XoxlYGS0mb8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
----
-
 ## Exploring the Starter Codebase 
 
 - `app/models`: Our Active Record models. Responsible for code that accesses and updates data in our database using classes that inherit from ActiveRecord::Base. We'll have the models we've been working on throughout the phase here.
@@ -342,13 +348,24 @@ Before we can hop in and start writing code, we need to understand one of the ma
 
 ![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVnObsmAMBWv4xbev4TmmLezWslQ87Ugtn2g&usqp=CAU)
 
-Connecting the diagram to our HTTP request/response cycle, we can say that the React client in our Browser sends a request to our server and the controller is the part of our sinatra code that decides how to respond. It may interact with one of our Models to get data from the database and then render a response back to the browser utilizing a view. 
+Connecting the diagram to our HTTP request/response cycle, we can say that the Browser sends a request to our server and the controller is the part of our sinatra code that decides how to respond. It may interact with one of our Models to get data from the database and then render a response back to the browser utilizing a view. 
 
-> The way we've used React so far, we've been doing all rendering of HTML within the browser. While Sinatra has the ability to render html from the server side, we won't be doing so because we want to do that in React. Instead, we'll be thinking of our *view* code as a way of describing what the JSON representation of our data should look like when we send a response back to our client side react code.
+The way we've used React so far, we've been doing all rendering of HTML within the browser. While Sinatra has the ability to render html from the server side, we won't be doing so because we want to do that in React. Instead, we'll be thinking of our *view* code as a way of describing what the JSON representation of our data should look like when we send a response back to our client side react code.
 
 ---
 
-## Restaurant Analogy
+### Key Concepts:
+
+- **Model** - class that inherits from ActiveRecord::Base that can make queries to the DB and get a collection of objects back
+- **Controller** - class that defines routes and decides how our server will respond to incoming requests
+- **View** - the code that determines the structure of the JSON that the controller will respond with. Later, we can move this code to separate files called serializers, but for now, we'll keep this code right inside our controller's routes. If we're thinking of our full stack application holistically, we could say that our view code is our react frontend code.
+
+Models should be familiar at this point, so the new concepts are the Controller and the View. In Sinatra, the controller is where we define the routes our application will respond to. 
+> This is slightly different in Rails–there are controllers in Rails as well, but the routes are defined in a separate file. In Sinatra, routes live in the controller.
+
+---
+
+### Restaurant Analogy
 
 [![Restaurant Analogy](https://image.slidesharecdn.com/introductiontolightninglifecyclevirtualmeetup-190605220136/95/introduction-to-lightning-lifecycle-19-638.jpg?cb=1559772205)](https://blog.yechiel.me/welcome-to-the-mvc-restaurant-fb1709047914)
 
@@ -357,17 +374,6 @@ Connecting the diagram to our HTTP request/response cycle, we can say that the R
 - Views <=> Tables/Silverware/Plates/other presentational stuff (React in our case)
 
 This [blog post on the MVC Restaurant](https://blog.yechiel.me/welcome-to-the-mvc-restaurant-fb1709047914) gives a fun explanation of the analogy in more detail.
-
----
-
-## Key Concepts:
-
-- **Model** - class that inherits from ActiveRecord::Base that can make queries to the DB and get a collection of objects back
-- **Controller** - class that defines routes and decides how our server will respond to incoming requests
-- **View** - the code that determines the structure of the JSON that the controller will respond with. Later, we can move this code to separate files called serializers, but for now, we'll keep this code right inside our controller's routes. If we're thinking of our full stack application holistically, we could say that our view code is our react frontend code.
-
-Models should be familiar at this point, so the new concepts are the Controller and the View. In Sinatra, the controller is where we define the routes our application will respond to. 
-> This is slightly different in Rails–there are controllers in Rails as well, but the routes are defined in a separate file. In Sinatra, routes live in the controller.
 
 ---
 
@@ -399,8 +405,6 @@ You should see something like this:
 
 ---
 
-## Testing it Out
-
 Now, let's go over to the browser and visit:
 
 ```
@@ -416,8 +420,8 @@ Internal server error
 OK, so this isn't super helpful. When you get a message like this in the browser, you want to check out the server logs. 
 
 ---
-## The Error
-```
+
+```rb
 2021-09-09 18:08:37 -0700 Unexpected error while processing request: Body yielded non-string value [:hello, "world"]
         /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/lib/rack/lint.rb:21:in `assert'
         /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/lib/rack/lint.rb:756:in `block in each'
@@ -433,19 +437,26 @@ OK, so this isn't super helpful. When you get a message like this in the browser
         /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/thin/connection.rb:39:in `receive_data'
         /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/eventmachine-1.2.7/lib/eventmachine.rb:195:in `run_machine'
         /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/eventmachine-1.2.7/lib/eventmachine.rb:195:in `run'
-        ...
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/thin/backends/base.rb:75:in `start'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/thin/server.rb:162:in `start'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/rack/handler/thin.rb:22:in `run'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/lib/rack/server.rb:327:in `start'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/lib/rack/server.rb:168:in `start'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/bin/rackup:5:in `<top (required)>'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/rackup:23:in `load'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/rackup:23:in `<main>'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/ruby_executable_hooks:24:in `eval'
+        /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/ruby_executable_hooks:24:in `<main>'
 ```
 
 ---
 
-## Debugging the Error
-
 So the error is `Unexpected error while processing request: Body yielded non-string value [:hello, "world"]`
 
-When we return a value from one of our routes, we need to make sure that the value is a string. We generally want to send JSON strings as responses, so we can use the `to_json` method to do that.
+When we return a value from one of our routes, we need to make sure that the value is a string. We generally want to send JSON strings as responses, so we can use the `to_json` method to 
 
 
-So, let's break this down. Rack is expecting the return value for the route to be a string, but the body is yielding a non string value. We know we want our api to respond with JSON, so let's convert the hash to json:
+so let's break this down. Rack is expecting the return value for the route to be a string, but the body is yielding a non string value. We know we want our api to respond with JSON, so let's convert the hash to json:
 
 ```rb
 get "/hi" do 
@@ -457,12 +468,9 @@ And try it again:
 
 ---
 
-![json output](https://github.com/DakotaLMartinez/intro_to_sinatra/raw/main/img/json-output.png) 
+![json output](https://github.com/DakotaLMartinez/intro_to_sinatra/raw/main/img/json-output.png)
 
----
-
-## Prettifying the Output
-If it doesn't look so nice for you, I recommend installing the [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) chrome extension. After installing, reload the page in the browser and you should see the same formatting as the image above.
+If it doesn't look so nice for you, I recommend installing the [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc?hl=en) chrome extension. After installing, reload the page in the browser and you should see the same formatting as the image above. 
 
 ---
 
@@ -524,7 +532,7 @@ Now, you'll see
 
 If you start your server and see something like this:
 
-```
+```bash
 10:27:06 [rerun] Api launched
 10:27:06 [rerun] Rerun (14359) running Api (14521)
 2021-08-20 10:27:07 -0700 Thin web server (v1.8.1 codename Infinite Smoothie)
@@ -535,7 +543,15 @@ Traceback (most recent call last):
         14: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/ruby_executable_hooks:24:in `eval'
         13: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/rackup:23:in `<main>'
         12: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/rackup:23:in `load'
-        ... stack trace abridged here ...
+        11: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/bin/rackup:5:in `<top (required)>'
+        10: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/lib/rack/server.rb:168:in `start'
+         9: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/rack-2.2.3/lib/rack/server.rb:327:in `start'
+         8: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/rack/handler/thin.rb:22:in `run'
+         7: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/thin/server.rb:162:in `start'
+         6: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/thin/backends/base.rb:75:in `start'
+         5: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/eventmachine-1.2.7/lib/eventmachine.rb:195:in `run'
+         4: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/eventmachine-1.2.7/lib/eventmachine.rb:195:in `run_machine'
+         3: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/thin/backends/base.rb:65:in `block in start'
          2: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/thin-1.8.1/lib/thin/backends/tcp_server.rb:16:in `connect'
          1: from /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/eventmachine-1.2.7/lib/eventmachine.rb:531:in `start_server'
 /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/gems/eventmachine-1.2.7/lib/eventmachine.rb:531:in `start_tcp_server': no acceptor (port is in use or requires root privileges) (RuntimeError)
@@ -548,10 +564,10 @@ Traceback (most recent call last):
 that means there's already a server running somewhere. You need to find the running process and kill it. To do that, you can run the following command:
 
 ```bash
-ps -ax | grep rackup
+ps -ax | grep config.ru
 ```
 
-And you'll see a list of all processes that include `rackup` in them.
+And you'll see a list of all processes that include `config.ru` in them.
 
 > **Aside**: The `grep` command is a search tool and we're piping the output of `ps -ax` to it, `ps -ax` will print a list of the running processes including their process ids and the path to the executable file itself. This will give us a list of processes that include `config.ru`. We should only see 2. The first will be the server process we need to kill, the second will be the search (which also contains `config.ru` in the command)
 
@@ -560,25 +576,23 @@ And you'll see a list of all processes that include `rackup` in them.
 # Example of Fix
 
 ```bash
-> ps -ax | grep rackup
-21736 ttys008    0:03.02 ruby /Users/dakotamartinez/.rvm/gems/ruby-2.7.4/bin/rerun -b rackup -p 9292    
-21780 ttys008    0:01.69 ruby /Users/dakotamartinez/.rvm/gems/ruby-2.7.4/bin/rackup -p 9292    
-21918 ttys009    0:00.00 grep rackup
+> ps -ax | grep config.ru
+2421 ttys008    0:01.90 ruby /Users/dakotamartinez/.rvm/gems/ruby-2.6.6/bin/rackup config.ru   
+15188 ttys008    0:00.00 grep config.ru
 ```
 The number at the beginning of the line is the process id that we need to kill.
 
 ```bash
-kill -9 21736
-kill -9 21780
+kill -9 2421
 ```
 
 We can confirm that it worked by running the `ps -ax | grep config.ru` again:
 ```bash
-> ps -ax | grep rackup
-22194 ttys009    0:00.00 grep rackup
+> ps -ax | grep config.ru
+15884 ttys008    0:00.00 grep config.ru
 ```
 
-Now, we only see the search process and no other process containing `rackup`. At this point, we can try running the server again using `rake server`
+Now, we only see the search process and no other process containing `config.ru`. At this point, we can try running the server again using `rake server`
 
 ```bash
 > rake server
@@ -590,20 +604,3 @@ Now, we only see the search process and no other process containing `rackup`. At
 10:34:59 [rerun] Watching . for **/*.{rb,js,coffee,css,scss,sass,erb,html,haml,ru,yml,slim,md,feature,c,h} with Darwin adapter
 ```
 If you see something like the above then you're good to go!
-
----
-
-## Sending Requests via Postman
-
-Try opening [this workspace](https://www.postman.com/dakota27/workspace/meetup-clone/collection/3907819-183b2073-d616-4b8d-9ebc-96aacb7cb19f) in Postman to get the details for the requests we want to send.
-
-When we create a dog, we'll send this as the raw body in JSON format:
-
-```json
-{
-    "name": "Baby Lennon",
-    "birthdate": "2020-08-31",
-    "breed": "Pomeranian",
-    "image_url": "https://res.cloudinary.com/dnocv6uwb/image/upload/v1609370238/dakota-and-lennon-square-medium-compressed_qpwki6.jpg"
-}
-```
