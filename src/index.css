@@ -21,11 +21,17 @@ li {
   max-width: 1200px;
   margin: 0 auto;
   /* white-space: normal !important; */
-  word-break: break-word !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
 }
 
 .prism-code ::selection {
   background: rgba(27, 57, 253, 0.74);
+}
+
+.prism-code .token-line:last-child {
+  height: 0;
 }
 
 .terminalCommand {
