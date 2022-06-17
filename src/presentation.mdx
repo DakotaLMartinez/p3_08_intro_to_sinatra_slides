@@ -18,11 +18,11 @@ In this lecture, we'll be covering the following topics:
   - Discuss Project Requirements for phase 3
   - Intro to Sinatra
   - Review of HTTP and request Response Cycle and how it applies to Sinatra
-- Navigating Starter Code
+- Building API Endpoints
   - getting familiar with the file structure and highlighting similarities and differences from what you've seen thus far
   - MVC Design Pattern
   - Building our first API endpoint
-  - Making a fetch request from React 
+  - Read through our API docs and build out endpoints for dogs and walks
 - Important Gotchas/Debugging and Developer tools
   - How to use Postman to debug request/response cycle
   - How to use `binding.pry`
@@ -33,12 +33,12 @@ In this lecture, we'll be covering the following topics:
 
 # Project Preview
 
-This is a little picture of the application we'll be building over the next few days!
+This is a little picture of the react client for that will consuem the API that we'll be building over the next couple of lectures!
 ![Dog Walker Application](https://res.cloudinary.com/dnocv6uwb/image/upload/v1627627105/dog-walker-app-demo-13fps_nwstsn.gif)
 
 --- 
 
-## Requirements
+## Project Requirements
 
 - Use Active Record to interact with a database.
 - Have a minimum of two models with a one-to-many relationship.
@@ -87,10 +87,6 @@ rake server
 
 ## Understanding Sinatra
 
-From there we can start building out our code. Before we do that, however, let's take a minute to talk about Sinatra, what it does and how we're going to adjust our thinking to work with it. 
-
-You'll have some time over the weekend to do some labs on Sinatra, but since you haven't seen all of that content yet, we'll go through this content briefly so you have a sense of what it is and why it's useful before we start using it to build out our application. 
-
 [Sinatra](http://sinatrarb.com/) is a DSL (Domain Specific Language) for quickly creating web applications in Ruby with minimal effort:
 
 ```rb
@@ -100,9 +96,7 @@ get '/frank-says' do
 end
 ```
 
-So, Sinatra gives us a collection of methods we can use to create web applications. 
-
-Okay, but what does web application mean? Simply put, a web application is a program that runs on a web server instead of on your local machine. So, in order for users to interact with a web application they have to interact with that web server. 
+So, Sinatra gives us a collection of methods we can use to create web applications.  
 
 ---
 
@@ -113,8 +107,6 @@ There are two key protocols that we can use to manage the interaction between br
 > Note that Websockets are usually used for real time communications like chat that require connections to stay open in both directions. 
 
 For our purposes, we'll be focusing on HTTP, which is short for HyperText Transfer Protocol. 
-
-You may recognize the HyperText part of that acronym from the HTML acronym (HyperText Markup Language). This is fitting, as HTTP was the original protocol used for delivering HTML documents from web servers to clients (web browsers). Before we get deeper into the HTTP protocol, let's talk through what this looks like from the perspective of the URL.
 
 ---
 
@@ -249,12 +241,15 @@ Here's an example of what an HTTP request might look like:
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview/http_request.png)
 
+<Note>
 Requests consist of the following elements:
 
 - An HTTP method, usually a verb like GET, POST or a noun like OPTIONS or HEAD that defines the operation the client wants to perform. Typically, a client wants to fetch a resource (using GET) or post the value of an HTML form (using POST), though more operations may be needed in other cases.
 - The path of the resource to fetch; the URL of the resource stripped from elements that are obvious from the context, for example without the protocol (http://), the domain (here, developer.mozilla.org), or the TCP port (here, 80).
 - Optional headers that convey additional information for the servers. *We'll use these to indicate that we want to format the body of our requests in JSON and to receive responses in JSON format*
 - Or a body, for some methods like POST, similar to those in responses, which contain the resource sent. *In our case, the body of a request might be form data extracted from the state in one of our controlled forms*
+
+</Note>
 
 ---
 
@@ -264,6 +259,8 @@ And here's an example HTTP Response
 
 ![](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview/http_response.png)
 
+<Note>
+
 Responses consist of the following elements:
 
 - The version of the HTTP protocol they follow.
@@ -271,6 +268,8 @@ Responses consist of the following elements:
 - A status message, a non-authoritative short description of the status code.
 - HTTP headers, like those for requests.
 - Optionally, a body containing the fetched resource.
+
+</Note>
 
 ---
 
@@ -307,9 +306,14 @@ Other HTTP details we'll have to account for:
 
 ---
 
-### IMPORTANT NOTE
+### IMPORTANT NOTES
 
-When you work on your project, it's recommended that your react application be in one repository and your sinatra api be in another repository. While it is possible to store all of the code in a single repository, it affects the process of deploying your code. There are pros and cons to each approach, but at this point, the benefits of deploying the frontend and backend to separate servers/services (heroku for backend and netlify for frontend) outweigh the challenges. Storing the frontend code in one repo and the backend code in another will allow you to deploy both to the services mentioned above via a simple `git push`. One of the downsides is that it makes user authentication a bit trickier. In Phase 4, when we introduce authentication, we're going to deploy our rails application and our react application together from a single repo. So, you'll get some experience with both approaches.
+- Use separate Repos for frontend and backend 
+- A monorepo is an option but it affects deployment
+- There are pros and cons to each approach, but at this point it will be simpler to deploy your frontend to a service like netlify and your backend to heroku (should you choose to do so)
+- Separate repos can make authentication a bit tricker to do
+- In Phase 4, when we introduce authentication, we're going to deploy our rails application and our react application together from a single repo. So, you'll get some experience with both approaches.
+
 
 ---
 
@@ -346,9 +350,15 @@ Before we can hop in and start writing code, we need to understand one of the ma
 
 ![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQVnObsmAMBWv4xbev4TmmLezWslQ87Ugtn2g&usqp=CAU)
 
+Sinatra can render HTML, but we'll send back JSON instead so we can use React
+
+<Note>
+
 Connecting the diagram to our HTTP request/response cycle, we can say that the React client in our Browser sends a request to our server and the controller is the part of our sinatra code that decides how to respond. It may interact with one of our Models to get data from the database and then render a response back to the browser utilizing a view. 
 
 > The way we've used React so far, we've been doing all rendering of HTML within the browser. While Sinatra has the ability to render html from the server side, we won't be doing so because we want to do that in React. Instead, we'll be thinking of our *view* code as a way of describing what the JSON representation of our data should look like when we send a response back to our client side react code.
+
+</Note>
 
 ---
 
